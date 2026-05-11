@@ -1,5 +1,5 @@
 FROM nginx:alpine
 
 
-COPY front-end/  /usr/share/nginx/html/
+COPY frontend/  /usr/share/nginx/html/
 
