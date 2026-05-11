@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY backend/ .
+COPY ./backend/ .
 
 
 CMD ["node", "server.js"]
