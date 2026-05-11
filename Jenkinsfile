@@ -6,9 +6,13 @@ stages{
 
 stage('CloneRepo'){
 
-git branch: 'main',
-credentialsId: 'git',
-url: 'git@github.com:ThakshalaMadhuwanthi/SecureOps-Monitor.git'
+    steps{
+     
+    git branch: 'main',
+    credentialsId: 'git',
+    url: 'git@github.com:ThakshalaMadhuwanthi/SecureOps-Monitor.git'
+    }
+
 
 }
 
