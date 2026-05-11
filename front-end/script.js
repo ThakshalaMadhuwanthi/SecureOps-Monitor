@@ -1,5 +1,5 @@
 function checkStatus() {
-    fetch("http://localhost:5000/api/status")
+    fetch("http://backend:5000/api/status")
         .then(res => res.json())
         .then(data => {
             document.getElementById("status").innerText = data.message;
