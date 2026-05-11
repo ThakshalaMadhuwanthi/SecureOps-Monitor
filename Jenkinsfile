@@ -16,6 +16,13 @@ stage('CloneRepo'){
 
 }
 
+stage('Screct Scan'){
+    steps{
+        sh 'gitleaks detect'
+    }
+}
+
+
 
 
 
