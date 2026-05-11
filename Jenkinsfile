@@ -18,7 +18,7 @@ stage('CloneRepo'){
 
 stage('Screct Scan'){
     steps{
-        sh 'gitleaks detect'
+        sh 'gitleaks detect --exit-code 1'
     }
 }
 
