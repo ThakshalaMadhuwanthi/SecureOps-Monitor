@@ -2,6 +2,10 @@ pipeline{
 
 agent any
 
+environment{
+    IMAGE_NAME = "secureops-monitor"
+}
+
 stages{
 
 stage('CloneRepo'){
@@ -22,29 +26,39 @@ stage('Screct Scan'){
     }
 }
 
-stage('Dependancy Scan'){
+stage('Build Docker Images'){
+    steps{
+        sh 'docker compose build'
+    }
+}
+
+stage('Container security Scan'){
     steps{
         sh 'trivy fs .'
     }
 }
 
-stage('Build Application'){
+stage('Deploy with Docker Compose'){
     steps{
-        sh 'mvn clean package'
-    }
-}
-
-stage('Unit Test'){
-    steps{
-        sh 'mvn test'
+        sh 'docker compose up -d'
     }
 }
 
 
 
+
+
 }
 
+post{
+    success{
+        echo "Pipeline successful"
+    }
 
+    failure{
+        echo "Pipeline failed"
+    }
+}
 
 
 
