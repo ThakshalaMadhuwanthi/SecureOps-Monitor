@@ -22,6 +22,12 @@ stage('Screct Scan'){
     }
 }
 
+stage('Dependancy Scan'){
+    steps{
+        sh 'trivy fs .'
+    }
+}
+
 
 
 
