@@ -30,20 +30,7 @@ stage('Screct Scan'){
     }
 }
 
-stage('Cleanup Old containers'){
-    steps{
-        sh '''
-                    echo "Stopping old containers..."
-                    docker compose down --remove-orphans || true
 
-                    echo "Cleaning unused containers..."
-                    docker ps -aq | xargs -r docker rm -f || true
-
-                    echo "Cleaning unused images..."
-                    docker image prune -af || true
-                '''
-    }
-}
 
 stage('Build Docker Images'){
     steps{
@@ -57,9 +44,22 @@ stage('Container security Scan'){
     }
 }
 
-stage('Deploy with Docker Compose'){
+stage('Push Images to docker Hub'){
     steps{
-        sh 'docker compose up -d'
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable:'USER', password:'PASS')]){
+            sh '''
+             docker login -u $USER -p $PASS
+
+             docker tag secureops-frontend $USER/secureops-frontend:latest
+
+             docker tag secureops-backend $USER/secureops-backend:latest
+
+             docker push  $USER/secureops-frontend:latest
+
+             docker push $USER/secureops-backend:latest
+
+             '''
+        }
     }
 }
 
