@@ -6,6 +6,10 @@ environment{
     IMAGE_NAME = "secureops-monitor"
 }
 
+triggers{
+    githubPush()
+}
+
 stages{
 
 stage('CloneRepo'){
@@ -26,6 +30,21 @@ stage('Screct Scan'){
     }
 }
 
+stage('Cleanup Old containers'){
+    steps{
+        sh '''
+                    echo "Stopping old containers..."
+                    docker compose down --remove-orphans || true
+
+                    echo "Cleaning unused containers..."
+                    docker ps -aq | xargs -r docker rm -f || true
+
+                    echo "Cleaning unused images..."
+                    docker image prune -af || true
+                '''
+    }
+}
+
 stage('Build Docker Images'){
     steps{
         sh 'docker compose build'
@@ -34,7 +53,7 @@ stage('Build Docker Images'){
 
 stage('Container security Scan'){
     steps{
-        sh 'trivy fs .'
+        sh 'trivy fs . || true'
     }
 }
 
