@@ -28,7 +28,17 @@ stage('Dependancy Scan'){
     }
 }
 
+stage('Build Application'){
+    steps{
+        sh 'mvn clean package'
+    }
+}
 
+stage('Unit Test'){
+    steps{
+        sh 'mvn test'
+    }
+}
 
 
 
