@@ -46,7 +46,7 @@ stage('Container security Scan'){
 
 stage('Push Images to docker Hub'){
     steps{
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable:'USER', password:'PASS')]){
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable:'USER', passwordVariable:'PASS')]){
             sh '''
              docker login -u $USER -p $PASS
 
